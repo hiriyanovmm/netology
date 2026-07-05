@@ -6,7 +6,9 @@
 
 
 
+
 ## Задача 3
+```hcl
 packer {
   required_plugins {
     yandex = {
@@ -77,3 +79,6 @@ build {
     ]
   }
 }
+```
+
+
