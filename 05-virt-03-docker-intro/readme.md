@@ -47,3 +47,7 @@ https://hub.docker.com/repository/docker/mhiriyanov/custom-nginx/general
 
 
 ### Задача 5
+
+6. Перейдите на страницу "http://127.0.0.1:9000/#!/2/docker/containers", выберите контейнер с nginx и нажмите на кнопку "inspect". В представлении <> Tree разверните поле "Config" и сделайте скриншот от поля "AppArmorProfile" до "Driver"
+   
+<img width="641" height="848" alt="image" src="https://github.com/user-attachments/assets/574129fc-d5a6-4012-a7b9-2fdf7b1dee6a" />
