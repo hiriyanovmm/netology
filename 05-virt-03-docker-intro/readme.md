@@ -20,9 +20,10 @@ https://hub.docker.com/repository/docker/mhiriyanov/custom-nginx/general
 
 <img width="974" height="479" alt="image" src="https://github.com/user-attachments/assets/6b056a8e-ea70-4cd7-a05c-e5fc28cd9083" />
 
-Процесс ngins после команды nginx -s reload начал слушать порт 81, при этом docker продолжает отправлять трафик на порт 80.
+Процесс ngins после команды ```nginx -s reload``` начал слушать порт 81, при этом docker продолжает отправлять трафик на порт 80.
 
 Решить проблему можно через порт форвардинг:
-iptables -t nat -A OUTPUT -p tcp -d 127.0.0.1 --dport 8080 -j REDIRECT --to-ports 81
+
+```iptables -t nat -A OUTPUT -p tcp -d 127.0.0.1 --dport 8080 -j REDIRECT --to-ports 81```
 
 <img width="744" height="56" alt="image" src="https://github.com/user-attachments/assets/a8bd4c29-afd0-4f8a-9535-ad09bb9371df" />
