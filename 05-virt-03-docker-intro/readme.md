@@ -14,10 +14,18 @@ https://hub.docker.com/repository/docker/mhiriyanov/custom-nginx/general
 
 Контейнер остановился потому что была передана команда Ctrl+C, которая отсановила главный процесс контейнера. Когда завершается процесс, контейнер останавливается.
 
+
+Перезапустите контейнер
+Зайдите в интерактивный терминал контейнера "custom-nginx-t2" с оболочкой bash.
 <img width="825" height="80" alt="image" src="https://github.com/user-attachments/assets/ea98b105-570a-4935-ae47-333f5cc3eb59" />
 
+Установите любимый текстовый редактор(vim, nano итд) с помощью apt-get.
 <img width="1605" height="929" alt="image" src="https://github.com/user-attachments/assets/7ff3de46-ed60-42ac-a5f8-64c81fe20c98" />
 
+Отредактируйте файл "/etc/nginx/conf.d/default.conf", заменив порт "listen 80" на "listen 81".
+Запомните(!) и выполните команду nginx -s reload, а затем внутри контейнера curl http://127.0.0.1:80 ; curl http://127.0.0.1:81.
+Выйдите из контейнера, набрав в консоли exit или Ctrl-D.
+Проверьте вывод команд: ss -tlpn | grep 127.0.0.1:8080 , docker port custom-nginx-t2, curl http://127.0.0.1:8080. Кратко объясните суть возникшей проблемы.
 <img width="974" height="479" alt="image" src="https://github.com/user-attachments/assets/6b056a8e-ea70-4cd7-a05c-e5fc28cd9083" />
 
 Процесс ngins после команды ```nginx -s reload``` начал слушать порт 81, при этом docker продолжает отправлять трафик на порт 80.
