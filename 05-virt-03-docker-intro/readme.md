@@ -27,3 +27,17 @@ https://hub.docker.com/repository/docker/mhiriyanov/custom-nginx/general
 ```iptables -t nat -A OUTPUT -p tcp -d 127.0.0.1 --dport 8080 -j REDIRECT --to-ports 81```
 
 <img width="744" height="56" alt="image" src="https://github.com/user-attachments/assets/a8bd4c29-afd0-4f8a-9535-ad09bb9371df" />
+
+### Задача 4
+
+<img width="723" height="55" alt="image" src="https://github.com/user-attachments/assets/2b551b4e-9f67-44b0-aace-e486ef99f945" />
+
+<img width="1303" height="272" alt="image" src="https://github.com/user-attachments/assets/b7b5598b-7e57-48d9-8bed-0537520a6217" />
+
+<img width="527" height="64" alt="image" src="https://github.com/user-attachments/assets/dff78b38-3194-4feb-9c79-96d1c62c0d5f" />
+
+<img width="371" height="49" alt="image" src="https://github.com/user-attachments/assets/59e06ce6-9447-48a1-bd3f-0de307d808fd" />
+
+<img width="533" height="489" alt="image" src="https://github.com/user-attachments/assets/5fdb1b08-699e-43c8-952c-284dcafe5ddd" />
+
+### Задача 5
