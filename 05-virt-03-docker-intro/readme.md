@@ -30,6 +30,7 @@ https://hub.docker.com/repository/docker/mhiriyanov/custom-nginx/general
 
 ### Задача 4
 
+Запустите первый контейнер из образа centos c любым тегом в фоновом режиме, подключив папку текущий рабочий каталог $(pwd) на хостовой машине в /data контейнера, используя ключ -v.
 <img width="723" height="55" alt="image" src="https://github.com/user-attachments/assets/2b551b4e-9f67-44b0-aace-e486ef99f945" />
 
 
