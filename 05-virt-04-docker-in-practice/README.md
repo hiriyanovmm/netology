@@ -5,3 +5,10 @@
 Задача 3
 
 <img width="416" height="206" alt="image" src="https://github.com/user-attachments/assets/a6c6e4eb-5007-41ba-91be-bef810e8641d" />
+
+Задача 4
+
+<img width="424" height="288" alt="image" src="https://github.com/user-attachments/assets/06f8577d-f504-421b-b1b2-72eceb5913e9" />
+
+
+
