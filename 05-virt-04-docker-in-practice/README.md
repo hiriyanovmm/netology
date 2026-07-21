@@ -12,3 +12,5 @@
 
 https://github.com/hiriyanovmm/shvirtd-example-python.git
 
+Задача 6
+
