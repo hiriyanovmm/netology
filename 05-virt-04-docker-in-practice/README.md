@@ -14,3 +14,10 @@ https://github.com/hiriyanovmm/shvirtd-example-python.git
 
 Задача 6
 
+<img width="787" height="182" alt="image" src="https://github.com/user-attachments/assets/a6cca975-fcd7-41f0-89e5-2ca920b3a650" />
+
+<img width="569" height="98" alt="image" src="https://github.com/user-attachments/assets/e50c69cb-b625-4da0-b250-8b50a5000c83" />
+
+docker save hashicorp/terraform:latest -o terraform_image.tar
+
+
