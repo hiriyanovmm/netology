@@ -4,3 +4,4 @@
 
 Задача 3
 
+<img width="416" height="206" alt="image" src="https://github.com/user-attachments/assets/a6c6e4eb-5007-41ba-91be-bef810e8641d" />
