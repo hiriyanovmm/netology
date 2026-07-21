@@ -20,4 +20,10 @@ https://github.com/hiriyanovmm/shvirtd-example-python.git
 
 docker save hashicorp/terraform:latest -o terraform_image.tar
 
+<img width="770" height="246" alt="image" src="https://github.com/user-attachments/assets/e2b9a340-c13f-403f-8494-7d74a78386c1" />
+
+tar -xf b6fb40402796ffe74eef11436eb3c86849e7e4aa36f1ce7ae6daae1dfccb97fb
+
+<img width="768" height="61" alt="image" src="https://github.com/user-attachments/assets/69e54d04-60ad-415a-8850-0bd23077e89c" />
+
 
