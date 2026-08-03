@@ -24,5 +24,24 @@
 
 <img width="1379" height="65" alt="image" src="https://github.com/user-attachments/assets/68eaaed5-541d-4676-8493-d959e6277eb9" />
 
+6. Замените имя docker-контейнера в блоке кода на hello_world.
 
+<img width="1324" height="61" alt="image" src="https://github.com/user-attachments/assets/5d83d5de-fa73-4664-8f5b-4c94ba2929c2" />
 
+- terraform apply -auto-approve выполняется без запроса подтверждения, что приводит к риску изменения или удаления важных ресурсов
+- ключ полезен в различных автоматизациях, скрипты, CI/CD
+
+7. Уничтожьте созданные ресурсы с помощью terraform.
+
+```
+terraform.tfstate
+{
+  "version": 4,
+  "terraform_version": "1.15.8",
+  "serial": 16,
+  "lineage": "04d3120f-cda5-8a56-ce56-fc7162d5df8d",
+  "outputs": {},
+  "resources": [],
+  "check_results": null
+}
+```
