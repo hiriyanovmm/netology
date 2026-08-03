@@ -57,4 +57,6 @@ terraform.tfstate
 
 <img width="536" height="176" alt="image" src="https://github.com/user-attachments/assets/8c65befd-ff3f-4412-b406-9d4ad844fced" />
 
+# Задание 3*
+
 
