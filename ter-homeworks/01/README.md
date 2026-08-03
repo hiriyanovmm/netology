@@ -18,4 +18,7 @@
 - Ошибка в имени label - "1nginx", имя label должно начинаться с буквы или символа нижнего подчеркивания.
 - Ошибка в строке random_password.random_string_FAKE.resulT, правильно - random_password.random_string.result
 
+<img width="624" height="40" alt="image" src="https://github.com/user-attachments/assets/61ea17cb-0791-49dd-bb9b-c3b648fb7f99" />
+
+
 6. 
