@@ -1,6 +1,6 @@
 <img width="186" height="43" alt="image" src="https://github.com/user-attachments/assets/7bb2e921-a90d-433f-80e4-eefbee1bc476" />
 
-Задание 1
+# Задание 1
 1. Перейдите в каталог src. Скачайте все необходимые зависимости, использованные в проекте.
 <img width="793" height="167" alt="image" src="https://github.com/user-attachments/assets/d592b813-e8d6-4afa-b1d7-61e788a6a801" />
 
@@ -51,3 +51,10 @@ terraform.tfstate
 В коде указан параметр keep_locally
 
 - keep_locally (Boolean) If true, then the Docker image won't be deleted on destroy operation. If this is false, it will delete the image from the docker local storage on destroy operation.
+
+
+# Задание 2*
+
+<img width="536" height="176" alt="image" src="https://github.com/user-attachments/assets/8c65befd-ff3f-4412-b406-9d4ad844fced" />
+
+
