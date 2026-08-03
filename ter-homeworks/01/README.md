@@ -59,4 +59,5 @@ terraform.tfstate
 
 # Задание 3*
 
+<img width="1103" height="209" alt="image" src="https://github.com/user-attachments/assets/291f18d4-a2fe-46b8-9983-5b044df05327" />
 
