@@ -13,3 +13,9 @@
 "result": "3UxeCo5ESTnAwMLY"
 
 5. Раскомментируйте блок кода, примерно расположенный на строчках 29–42 файла main.tf. Выполните команду terraform validate. Объясните, в чём заключаются намеренно допущенные ошибки. Исправьте их.
+
+Ресурс docker_image имел только один label. All resource blocks must have 2 labels (type, name).
+Ошибка в имени label - "1nginx", имя label должно начинаться с буквы или символа нижнего подчеркивания.
+Ошибка в строке random_password.random_string_FAKE.resulT, правильно - random_password.random_string.result
+
+6. 
