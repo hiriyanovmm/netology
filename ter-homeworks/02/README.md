@@ -4,8 +4,7 @@
 
 <img width="1649" height="85" alt="image" src="https://github.com/user-attachments/assets/9c2a19c7-1234-4545-af0c-fb0f22af8387" />  
 
-
-
+  
 скриншот консоли, curl должен отобразить тот же внешний ip-адрес
 
 <img width="379" height="31" alt="image" src="https://github.com/user-attachments/assets/55e53e4c-9f76-429c-805f-afbd75fee003" />
