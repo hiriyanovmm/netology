@@ -22,4 +22,7 @@
 
 # Задание 3
 
+# Задание 4
+
+<img width="518" height="236" alt="image" src="https://github.com/user-attachments/assets/464eacb7-a021-4aa3-a3d7-25d4df158113" />
 
