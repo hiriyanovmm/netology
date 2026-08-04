@@ -15,3 +15,11 @@
 - выбрал платформу standart-v2 изменив v4 на v2, получил ошибку "Platform "standart-v2" not found", скопировал название платформы из документации.
 - выбрал платформу standart-v2, получил ошибку "the specified number of cores is not available on platform "standard-v2"; allowed core number: 2, 4". Исправил количество ядер на 2
 - preemptible = true и core_fraction = 5 позволяет создать максимально бюджетную ВМ
+
+# Задание 2
+
+<img width="1214" height="197" alt="image" src="https://github.com/user-attachments/assets/267362ab-2402-4765-9125-8558ea69db34" />
+
+# Задание 3
+
+
