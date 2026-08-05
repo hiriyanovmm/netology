@@ -37,4 +37,9 @@
 
 # Задание 6
 
+<img width="805" height="221" alt="image" src="https://github.com/user-attachments/assets/574c4430-e31b-4ee8-8b31-98b25c9553c5" />
+
+# Задание 7*
+
+
 
