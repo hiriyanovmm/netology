@@ -41,5 +41,9 @@
 
 # Задание 7*
 
+1. local.test_list[1]
+2. length(local.test_list)
+3. local.test_map.admin
+4. "${local.test_map.admin} is ${keys(local.test_map)[0]} for ${local.test_list[2]} server based on OS ${local.servers.production.image} with ${local.servers.production.cpu} vcpu, ${local.servers.production.ram} ram and ${length(local.servers.production.disks)} virtual disks"
 
-
+ 
