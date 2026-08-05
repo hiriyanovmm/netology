@@ -46,4 +46,7 @@
 3. local.test_map.admin
 4. "${local.test_map.admin} is ${keys(local.test_map)[0]} for ${local.test_list[2]} server based on OS ${local.servers.production.image} with ${local.servers.production.cpu} vcpu, ${local.servers.production.ram} ram and ${length(local.servers.production.disks)} virtual disks"
 
- 
+# Задание 9*
+
+<img width="558" height="166" alt="image" src="https://github.com/user-attachments/assets/db27d092-acd1-45dd-a7ef-e9c8c45eb92c" />
+
