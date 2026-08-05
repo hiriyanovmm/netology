@@ -29,3 +29,12 @@
 
 <img width="518" height="236" alt="image" src="https://github.com/user-attachments/assets/464eacb7-a021-4aa3-a3d7-25d4df158113" />
 
+# Задание 5
+
+Добавил в имя ВМ зону доступности
+
+<img width="1066" height="266" alt="image" src="https://github.com/user-attachments/assets/f4df63ca-c04a-4ebc-8f9e-7cebb4768e92" />
+
+# Задание 6
+
+
