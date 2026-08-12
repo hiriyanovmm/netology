@@ -30,3 +30,64 @@ variable "vpc_name" {
   default     = "develop"
   description = "VPC network&subnet name"
 }
+
+variable "image_id" {
+  default       = "ubuntu-2004-lts"
+  type          = string
+}
+
+variable "security_group_id" {
+  type          = string
+  default       = "example_dynamic"
+}
+
+variable "disk_type" {
+  type        = string
+  default     = "network-hdd"
+  description = "Boot disk type"
+}
+
+variable "each_vm" {
+  type          = list(object({
+    vm_name     = string
+    cpu         = number
+    ram         = number
+    disk_volume = number
+    core_fraction = number
+  }))
+
+  default = [
+    {
+      vm_name     = "main"
+      cpu         = 2
+      ram         = 4
+      disk_volume = 20
+      core_fraction = 20
+    },
+    {
+      vm_name     = "replica"
+      cpu         = 4
+      ram         = 8
+      disk_volume = 40
+      core_fraction = 20
+    }
+  ]
+}
+
+variable "web_vm" {
+  type = object({
+    count         = number
+    cpu           = number
+    ram           = number
+    disk_volume   = number
+    core_fraction = number
+  })
+
+  default = {
+    count         = 2
+    cpu           = 2
+    ram           = 2
+    disk_volume   = 10
+    core_fraction = 20
+  }
+}
