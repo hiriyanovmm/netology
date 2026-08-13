@@ -4,4 +4,5 @@
 
 # Задание 2
 
+<img width="784" height="521" alt="image" src="https://github.com/user-attachments/assets/fd0f8cc1-fbea-4068-8180-4f376d4a0fb8" />
 
