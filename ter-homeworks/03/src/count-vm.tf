@@ -17,7 +17,7 @@ resource "yandex_compute_instance" "web" {
 
   boot_disk {
     initialize_params {
-      image_id = var.image_id
+      image_id = local.image_id
       size     = var.web_vm.disk_volume
       type     = var.disk_type
     }
@@ -28,9 +28,9 @@ resource "yandex_compute_instance" "web" {
   }
 
   network_interface {
-    subnet_id          = yandex_vpc_network.develop.id
+    subnet_id          = yandex_vpc_subnet.develop.id
     nat                = true
-    security_group_ids = [var.security_group_id]
+    security_group_ids = [yandex_vpc_security_group.example.id]
   }
 
   metadata = local.vm_metadata

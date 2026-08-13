@@ -45,7 +45,7 @@ variable "security_group_egress" {
   }))
   default = [
     { 
-      protocol       = "TCP"
+      protocol       = "ANY"
       description    = "разрешить весь исходящий трафик"
       v4_cidr_blocks = ["0.0.0.0/0"]
       from_port      = 0

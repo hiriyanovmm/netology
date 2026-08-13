@@ -19,14 +19,14 @@ resource "yandex_compute_instance" "db" {
 
   boot_disk {
     initialize_params {
-      image_id = var.image_id
+      image_id = local.image_id
       size     = each.value.disk_volume
       type     = var.disk_type
     }
   }
 
   network_interface {
-    subnet_id = yandex_vpc_network.develop.id
+    subnet_id = yandex_vpc_subnet.develop.id
     nat       = true
   }
 

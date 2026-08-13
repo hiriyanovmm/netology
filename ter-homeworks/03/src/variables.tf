@@ -31,9 +31,12 @@ variable "vpc_name" {
   description = "VPC network&subnet name"
 }
 
-variable "image_id" {
-  default       = "ubuntu-2004-lts"
-  type          = string
+data "yandex_compute_image" "ubuntu" {
+  family = "ubuntu-2004-lts"
+}
+
+locals {
+  image_id = data.yandex_compute_image.ubuntu.image_id
 }
 
 variable "security_group_id" {
@@ -89,5 +92,33 @@ variable "web_vm" {
     ram           = 2
     disk_volume   = 10
     core_fraction = 20
+  }
+}
+
+variable "storage_vm" {
+  type = object({
+    cpu           = number
+    ram           = number
+    disk_volume   = number
+    core_fraction = number
+  })
+
+  default = {
+    cpu           = 2
+    ram           = 2
+    disk_volume   = 10
+    core_fraction = 20
+  }
+}
+
+variable "storage_disk" {
+  type = object({
+    count         = number
+    size          = number
+  })
+
+  default = {
+    count         = 3
+    size          = 1
   }
 }
