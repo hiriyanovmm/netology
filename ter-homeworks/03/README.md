@@ -16,3 +16,5 @@
 
 
 # Задание 5*
+
+<img width="454" height="497" alt="image" src="https://github.com/user-attachments/assets/9d3fdc95-fafb-44fc-a29a-99563ab5a089" />
