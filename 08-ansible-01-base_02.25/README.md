@@ -1,29 +1,30 @@
 1. 
-"msg": 12
+<img width="821" height="159" alt="image" src="https://github.com/user-attachments/assets/381c3bbb-d14b-4af7-a584-7a617a7b515d" />
 
-2. Найдите файл с переменными (group_vars), в котором задаётся найденное в первом пункте значение, и поменяйте его на `all default fact`.
+
+2.
+<img width="451" height="69" alt="image" src="https://github.com/user-attachments/assets/c96ce783-5be5-407e-9173-2f567ae02676" />
+
 
 4. 
-ok: [centos7] => {
-    "msg": "el"
-}
-ok: [ubuntu] => {
-    "msg": "deb"
-}
+<img width="823" height="236" alt="image" src="https://github.com/user-attachments/assets/2e881aca-efd0-4e66-9017-cf5e592643ab" />
+
 
 6. 
-ok: [centos7] => {
-    "msg": "el default fact"
-}
-ok: [ubuntu] => {
-    "msg": "deb default fact"
-}
+<img width="826" height="236" alt="image" src="https://github.com/user-attachments/assets/25bac663-c3e5-461f-95c4-761437b4f193" />
 
-7. При помощи `ansible-vault` зашифруйте факты в `group_vars/deb` и `group_vars/el` с паролем `netology`.
 
-8. Запустите playbook на окружении `prod.yml`. При запуске `ansible` должен запросить у вас пароль. Убедитесь в работоспособности.
+7. 
+<img width="821" height="257" alt="image" src="https://github.com/user-attachments/assets/bb3a66e7-8519-48bc-b77a-da20deddb9de" />
 
-9. Посмотрите при помощи `ansible-doc` список плагинов для подключения. Выберите подходящий для работы на `control node`.
+
+8. 
+<img width="819" height="69" alt="image" src="https://github.com/user-attachments/assets/dec61425-4d41-4173-ba7a-546f58e1d09f" />
+
+
+9. 
+<img width="823" height="122" alt="image" src="https://github.com/user-attachments/assets/e14b7a93-ad11-40c5-a2e2-0b54f58cfc10" />
+
 
 10. В `prod.yml` добавьте новую группу хостов с именем  `local`, в ней разместите localhost с необходимым типом подключения.
 
