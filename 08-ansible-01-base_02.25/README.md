@@ -26,13 +26,13 @@
 <img width="823" height="122" alt="image" src="https://github.com/user-attachments/assets/e14b7a93-ad11-40c5-a2e2-0b54f58cfc10" />
 
 
-10. В `prod.yml` добавьте новую группу хостов с именем  `local`, в ней разместите localhost с необходимым типом подключения.
+10. 
+<img width="421" height="316" alt="image" src="https://github.com/user-attachments/assets/4861fbda-2ab7-45ed-b1ae-3cbe89aaed5b" />
 
-11. Запустите playbook на окружении `prod.yml`. При запуске `ansible` должен запросить у вас пароль. Убедитесь, что факты `some_fact` для каждого из хостов определены из верных `group_vars`.
 
-12. Заполните `README.md` ответами на вопросы. Сделайте `git push` в ветку `master`. В ответе отправьте ссылку на ваш открытый репозиторий с изменённым `playbook` и заполненным `README.md`.
+11. 
+<img width="695" height="184" alt="image" src="https://github.com/user-attachments/assets/5c4be9a7-f149-4fa9-b606-30806a5716bc" />
 
-13. Предоставьте скриншоты результатов запуска команд.
 
 ## Необязательная часть
 
