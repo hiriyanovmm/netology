@@ -7,8 +7,12 @@
       ansible.builtin.service:
         name: clickhouse-server
         state: restarted
+      tags:
+        - clickhouse
   tasks:
     - name: Download ClickHouse packages
+      tags:
+        - clickhouse
       block:
         - name: Get clickhouse distrib
           ansible.builtin.get_url:
@@ -18,6 +22,8 @@
           with_items: "{{ clickhouse_packages }}"
       rescue:
         - name: Get clickhouse distrib
+          tags:
+            - clickhouse
           ansible.builtin.get_url:
             url: "https://packages.clickhouse.com/rpm/stable/clickhouse-common-static-{{ clickhouse_version }}.x86_64.rpm"
             dest: "./clickhouse-common-static-{{ clickhouse_version }}.rpm"
@@ -25,6 +31,8 @@
 
     - name: Install clickhouse packages
       become: true
+      tags:
+        - clickhouse
       ansible.builtin.yum:
         disable_gpg_check: true
         name:
@@ -34,9 +42,13 @@
       notify: Start clickhouse service
 
     - name: Flush handlers
+      tags:
+        - clickhouse
       ansible.builtin.meta: flush_handlers
 
     - name: Create database
+      tags:
+        - clickhouse
       ansible.builtin.command: "clickhouse-client -q 'create database logs;'"
       register: create_db
       failed_when: create_db.rc != 0 and create_db.rc != 82
@@ -50,15 +62,21 @@
       ansible.builtin.service:
         name: vector
         state: restarted
+      tags:
+        - vector
 
   tasks:
     - name: Download Vector installer
+      tags:
+        - vector
       ansible.builtin.get_url:
         url: https://sh.vector.dev
         dest: /tmp/vector-installer.sh
         mode: "0755"
 
     - name: Install Vector via installer
+      tags:
+        - vector
       become: true
       ansible.builtin.command:
         cmd: /tmp/vector-installer.sh -y
@@ -68,11 +86,15 @@
       changed_when: "'already installed' not in (vector_install.stdout | lower)"
 
     # - name: Check vector binary
+    #   tags:
+    #    - vector
     #   ansible.builtin.command: vector --version
     #   register: vector_version_check
     #   changed_when: false
 
-    # - name: Create Vector config directory
+    #  - name: Create Vector config directory
+    #    tags:
+    #     - vector
     #   become: true
     #   ansible.builtin.file:
     #     path: /etc/vector
@@ -80,6 +102,8 @@
     #     mode: '0755'
 
     # - name: Deploy Vector config
+    #   tags:
+    #    - vector
     #   become: true
     #   ansible.builtin.template:
     #     src: vector.toml.j2
@@ -88,6 +112,8 @@
     #   notify: Restart vector service
 
     # - name: Enable and start vector service
+    #   tags:
+    #    - vector
     #   become: true
     #   ansible.builtin.service:
     #     name: vector
@@ -103,9 +129,13 @@
       ansible.builtin.service:
         name: nginx
         state: restarted
+      tags:
+        - lighthouse
 
   tasks:
     - name: Add NGINX repository
+      tags:
+        - lighthouse
       become: true
       ansible.builtin.yum_repository:
         name: nginx-stable
@@ -117,12 +147,16 @@
         module_hotfixes: true
 
     - name: Install Nginx
+      tags:
+        - lighthouse
       become: true
       ansible.builtin.yum:
         name: nginx
         state: present
 
     - name: Create LightHouse directory
+      tags:
+        - lighthouse
       become: true
       ansible.builtin.file:
         path: /usr/share/nginx/html/lighthouse
@@ -130,6 +164,8 @@
         mode: '0755'
 
     - name: Download LightHouse archive
+      tags:
+        - lighthouse
       become: true
       ansible.builtin.get_url:
         url: https://github.com/VKCOM/lighthouse/archive/refs/heads/master.zip
@@ -137,12 +173,16 @@
         mode: '0644'
 
     - name: Install unzip
+      tags:
+        - lighthouse
       become: true
       ansible.builtin.yum:
         name: unzip
         state: present
 
     - name: Unpack LightHouse
+      tags:
+        - lighthouse
       become: true
       ansible.builtin.unarchive:
         src: /tmp/lighthouse.zip
@@ -150,6 +190,8 @@
         remote_src: true
 
     - name: Copy LightHouse static files
+      tags:
+        - lighthouse
       become: true
       ansible.builtin.copy:
         src: /tmp/lighthouse-master/
@@ -158,6 +200,8 @@
         mode: preserve
 
     - name: Configure Nginx for LightHouse
+      tags:
+        - lighthouse
       become: true
       ansible.builtin.template:
         src: lighthouse.conf.j2
@@ -166,6 +210,8 @@
       notify: Restart nginx
 
     - name: Start and enable nginx
+      tags:
+        - lighthouse
       become: true
       ansible.builtin.service:
         name: nginx

@@ -113,5 +113,3 @@ clickhouse-server
 Пример запуска только для одной группы хостов:
 
 ansible-playbook playbook.yml -i inventory/prod.yml --limit clickhouse
-
-
