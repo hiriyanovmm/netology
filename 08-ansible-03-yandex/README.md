@@ -95,47 +95,22 @@ lighthouse
 наличие шаблона lighthouse.conf.j2 в каталоге templates/ ;
 
 
-Теги
-В текущем варианте playbook теги не определены.
+### Теги
 
-Это означает, что:
+Добавлены такие теги:
 
-запуск отдельных частей через --tags невозможен;
+- clickhouse	Все задачи первого play	Установка и настройка ClickHouse.
+- vector	Все задачи второго play	Установка Vector.
+- lighthouse	Все задачи третьего play	Установка LightHouse и Nginx.
 
---skip-tags также не даст эффекта;
-
-playbook всегда будет выполняться по структуре задач, определённой в plays.
-
-Рекомендуемые теги
-Для удобства эксплуатации можно добавить такие теги:
-
-Тег	Куда добавить	Назначение
-clickhouse	Все задачи первого play	Установка и настройка ClickHouse.
-vector	Все задачи второго play	Установка Vector.
-lighthouse	Все задачи третьего play	Установка LightHouse и Nginx.
-nginx	Задачи установки и настройки Nginx	Отдельное управление web-частью.
-packages	Задачи установки пакетов	Быстрый запуск только package-этапа.
-config	Шаблоны и конфигурационные файлы	Применение только конфигурации.
-service	Задачи и handlers управления сервисами	Перезапуск и включение сервисов.
-Пример возможного запуска после добавления тегов:
-
-bash
+Пример возможного запуска тегов:
 
 ansible-playbook site.yml --tags clickhouse
-ansible-playbook site.yml --tags lighthouse,nginx
-ansible-playbook site.yml --skip-tags service
-Пример запуска
-bash
+ansible-playbook site.yml --tags lighthouse
+ansible-playbook site.yml --tags vector
 
-ansible-playbook playbook.yml -i inventory/prod.yml
 Пример запуска только для одной группы хостов:
 
-bash
-
 ansible-playbook playbook.yml -i inventory/prod.yml --limit clickhouse
-Примечания
-Для ClickHouse RPM-файлы скачиваются в текущий рабочий каталог, так как dest задан как ./....
-
-В секции Vector конфигурация, проверка бинарника и управление сервисом пока закомментированы, поэтому play устанавливает только сам агент.
 
 Для LightHouse используется ветка master архива GitHub, что может приводить к изменению состава файлов при повторных запусках в будущем.
