@@ -2,9 +2,9 @@
 
 ## Ansible Playbook: ClickHouse, Vector, LightHouse
 
-### clickhouse — установка ClickHouse, перезапуск сервиса и создание базы данных logs.
+### clickhouse — установка ClickHouse, перезапуск сервиса и создание БД logs.
 
-### vector — установка Vector через официальный инсталлятор.
+### vector — установка Vector через официальный скрипт.
 
 ### lighthouse — установка Nginx, загрузка и установка LightHouse, настройка Nginx.
 
@@ -29,7 +29,7 @@ clickhouse-server
 
 - Принудительно выполняет handlers через meta: flush_handlers.
 
-- Создаёт базу данных logs, если она ещё не существует.
+- Создаёт БД logs, если она ещё не существует.
 
 Особенность логики создания БД:
 
@@ -73,21 +73,22 @@ clickhouse-server
 
 - При изменении конфигурации перезапускает Nginx через handler.
 
-Параметры
+### Параметры
+
 Ниже перечислены переменные, которые используются в playbook.
 
-clickhouse_version	Версия ClickHouse, используемая при скачивании и установке RPM-пакетов.
-clickhouse_packages	['clickhouse-common-static', 'clickhouse-client', 'clickhouse-server']	Список пакетов ClickHouse для загрузки.
-vector_version	Да	0.34.0	Версия Vector, передаваемая через переменную окружения VECTOR_VERSION.
+- clickhouse_version	Версия ClickHouse, используемая при скачивании и установке RPM-пакетов.
+- clickhouse_packages	['clickhouse-common-static', 'clickhouse-client', 'clickhouse-server']	Список пакетов ClickHouse для загрузки.
+- vector_version	Да	0.34.0	Версия Vector, передаваемая через переменную окружения VECTOR_VERSION.
 
-Требования к inventory
+### Требования к inventory
 В inventory должны быть определены группы:
 
-clickhouse
-vector
-lighthouse
+- clickhouse
+- vector
+- lighthouse
 
-Внешние зависимости
+### Внешние зависимости
 Для корректной работы playbook необходимы:
 
 доступ хостов к интернет-ресурсам packages.clickhouse.com, sh.vector.dev, nginx.org, github.com;
@@ -105,12 +106,12 @@ lighthouse
 
 Пример возможного запуска тегов:
 
-ansible-playbook site.yml --tags clickhouse
-ansible-playbook site.yml --tags lighthouse
-ansible-playbook site.yml --tags vector
+- ansible-playbook site.yml --tags clickhouse
+- ansible-playbook site.yml --tags lighthouse
+- ansible-playbook site.yml --tags vector
 
 Пример запуска только для одной группы хостов:
 
 ansible-playbook playbook.yml -i inventory/prod.yml --limit clickhouse
 
-Для LightHouse используется ветка master архива GitHub, что может приводить к изменению состава файлов при повторных запусках в будущем.
+
