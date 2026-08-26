@@ -8,17 +8,20 @@
         name: clickhouse-server
         state: restarted
   tasks:
-    - block:
+    - name: Download ClickHouse packages
+      block:
         - name: Get clickhouse distrib
           ansible.builtin.get_url:
             url: "https://packages.clickhouse.com/rpm/stable/{{ item }}-{{ clickhouse_version }}.noarch.rpm"
             dest: "./{{ item }}-{{ clickhouse_version }}.rpm"
+            mode: "0644"
           with_items: "{{ clickhouse_packages }}"
       rescue:
         - name: Get clickhouse distrib
           ansible.builtin.get_url:
             url: "https://packages.clickhouse.com/rpm/stable/clickhouse-common-static-{{ clickhouse_version }}.x86_64.rpm"
             dest: "./clickhouse-common-static-{{ clickhouse_version }}.rpm"
+            mode: "0644"
 
     - name: Install clickhouse packages
       become: true
@@ -31,7 +34,7 @@
       notify: Start clickhouse service
 
     - name: Flush handlers
-      meta: flush_handlers
+      ansible.builtin.meta: flush_handlers
 
     - name: Create database
       ansible.builtin.command: "clickhouse-client -q 'create database logs;'"
@@ -49,14 +52,20 @@
         state: restarted
 
   tasks:
-    - name: Install Vector via official script
+    - name: Download Vector installer
+      ansible.builtin.get_url:
+        url: https://sh.vector.dev
+        dest: /tmp/vector-installer.sh
+        mode: "0755"
+
+    - name: Install Vector via installer
       become: true
-      ansible.builtin.shell: |
-        curl --proto '=https' --tlsv1.2 -sSfL https://sh.vector.dev | bash -s -- -y
-      args:
-        executable: /bin/bash
+      ansible.builtin.command:
+        cmd: /tmp/vector-installer.sh -y
       environment:
-        VECTOR_VERSION: "{{ vector_version | default('0.57.0') }}"
+        VECTOR_VERSION: "{{ vector_version }}"
+      register: vector_install
+      changed_when: "'already installed' not in (vector_install.stdout | lower)"
 
     # - name: Check vector binary
     #   ansible.builtin.command: vector --version
