@@ -1,0 +1,4 @@
+---
+- hosts: vector
+  roles:
+    - vector-role

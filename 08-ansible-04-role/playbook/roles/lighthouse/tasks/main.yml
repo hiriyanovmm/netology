@@ -1,0 +1,86 @@
+---
+- name: Add NGINX repository
+  tags:
+    - lighthouse
+  become: true
+  ansible.builtin.yum_repository:
+    name: nginx-stable
+    description: nginx stable repo
+    baseurl: https://nginx.org/packages/rhel/$releasever/$basearch/
+    gpgcheck: true
+    gpgkey: https://nginx.org/keys/nginx_signing.key
+    enabled: true
+    module_hotfixes: true
+
+- name: Install Nginx
+  tags:
+    - lighthouse
+  become: true
+  ansible.builtin.yum:
+    name: nginx
+    state: present
+
+- name: Create LightHouse directory
+  tags:
+    - lighthouse
+  become: true
+  ansible.builtin.file:
+    path: /usr/share/nginx/html/lighthouse
+    state: directory
+    mode: '0755'
+
+- name: Download LightHouse archive
+  tags:
+    - lighthouse
+  become: true
+  ansible.builtin.get_url:
+    url: https://github.com/VKCOM/lighthouse/archive/refs/heads/master.zip
+    dest: /tmp/lighthouse.zip
+    mode: '0644'
+
+- name: Install unzip
+  tags:
+    - lighthouse
+  become: true
+  ansible.builtin.yum:
+    name: unzip
+    state: present
+
+- name: Unpack LightHouse
+  tags:
+    - lighthouse
+  become: true
+  ansible.builtin.unarchive:
+    src: /tmp/lighthouse.zip
+    dest: /tmp/
+    remote_src: true
+
+- name: Copy LightHouse static files
+  tags:
+    - lighthouse
+  become: true
+  ansible.builtin.copy:
+    src: /tmp/lighthouse-master/
+    dest: /usr/share/nginx/html/lighthouse/
+    remote_src: true
+    mode: preserve
+
+- name: Configure Nginx for LightHouse
+  tags:
+    - lighthouse
+  become: true
+  ansible.builtin.template:
+    src: lighthouse.conf.j2
+    dest: /etc/nginx/conf.d/lighthouse.conf
+    mode: '0644'
+  notify: Restart nginx
+
+- name: Start and enable nginx
+  tags:
+    - lighthouse
+  become: true
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true
+
