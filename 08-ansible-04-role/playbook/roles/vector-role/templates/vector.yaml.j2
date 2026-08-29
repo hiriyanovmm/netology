@@ -1,0 +1,17 @@
+data_dir: /var/lib/vector
+
+sources:
+  system_logs:
+    type: file
+    include:
+      - "{{ vector_source_log_path }}"
+    read_from: beginning
+
+sinks:
+  console:
+    type: console
+    inputs:
+      - system_logs
+    target: stdout
+    encoding:
+      codec: json

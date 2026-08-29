@@ -1,2 +1,6 @@
 ---
-# defaults file for vector-role
+vector_version: "0.35.0"
+vector_installer_path: /tmp/vector-installer.sh
+vector_config_dir: /etc/vector
+vector_config_path: /etc/vector/vector.yaml
+vector_source_log_path: /var/log/messages

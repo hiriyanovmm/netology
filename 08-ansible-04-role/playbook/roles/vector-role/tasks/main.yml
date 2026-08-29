@@ -1,54 +1,55 @@
 ---
-- name: Download Vector installer
+- name: Add Vector repository
+  become: true
   tags:
     - vector
-  ansible.builtin.get_url:
-    url: https://sh.vector.dev
-    dest: /tmp/vector-installer.sh
+  ansible.builtin.shell: |
+    bash -c "$(curl -L https://setup.vector.dev)"
+  args:
+    creates: /etc/yum.repos.d/vector.repo
+
+- name: Refresh package cache
+  become: true
+  tags:
+    - lighthouse
+  ansible.builtin.yum:
+    update_cache: true
+
+- name: Install Vector package
+  become: true
+  tags:
+    - vector
+  ansible.builtin.yum:
+    name: vector
+    state: present
+
+- name: Create Vector config directory
+  become: true
+  tags:
+    - vector
+  ansible.builtin.file:
+    path: "{{ vector_config_dir }}"
+    state: directory
     mode: "0755"
 
-- name: Install Vector via installer
+- name: Deploy Vector config
+  become: true
   tags:
     - vector
+  ansible.builtin.template:
+    src: vector.yaml.j2
+    dest: "{{ vector_config_path }}"
+    owner: vector
+    group: vector
+    mode: "0640"
+    validate: "/usr/bin/vector validate --config-yaml %s"
+  notify: Restart vector service
+
+- name: Enable and start Vector service
   become: true
-  ansible.builtin.command:
-    cmd: /tmp/vector-installer.sh -y
-  environment:
-    VECTOR_VERSION: "{{ vector_version }}"
-  register: vector_install
-  changed_when: "'already installed' not in (vector_install.stdout | lower)"
-
-# - name: Check vector binary
-#   tags:
-#    - vector
-#   ansible.builtin.command: vector --version
-#   register: vector_version_check
-#   changed_when: false
-
-#  - name: Create Vector config directory
-#    tags:
-#     - vector
-#   become: true
-#   ansible.builtin.file:
-#     path: /etc/vector
-#     state: directory
-#     mode: '0755'
-
-# - name: Deploy Vector config
-#   tags:
-#    - vector
-#   become: true
-#   ansible.builtin.template:
-#     src: vector.toml.j2
-#     dest: /etc/vector/vector.toml
-#     mode: '0644'
-#   notify: Restart vector service
-
-# - name: Enable and start vector service
-#   tags:
-#    - vector
-#   become: true
-#   ansible.builtin.service:
-#     name: vector
-#     state: started
-#     enabled: true
+  tags:
+    - vector
+  ansible.builtin.service:
+    name: vector
+    state: started
+    enabled: true

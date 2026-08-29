@@ -1,86 +1,107 @@
 ---
 - name: Add NGINX repository
+  become: true
   tags:
     - lighthouse
-  become: true
   ansible.builtin.yum_repository:
-    name: nginx-stable
-    description: nginx stable repo
-    baseurl: https://nginx.org/packages/rhel/$releasever/$basearch/
+    name: "{{ lighthouse_nginx_repo_name }}"
+    description: "{{ lighthouse_nginx_repo_description }}"
+    baseurl: "{{ lighthouse_nginx_repo_baseurl }}"
     gpgcheck: true
-    gpgkey: https://nginx.org/keys/nginx_signing.key
+    gpgkey: "{{ lighthouse_nginx_repo_gpgkey }}"
     enabled: true
     module_hotfixes: true
 
-- name: Install Nginx
+- name: Refresh package cache
+  become: true
   tags:
     - lighthouse
-  become: true
   ansible.builtin.yum:
-    name: nginx
+    update_cache: true
+
+- name: Install required packages
+  become: true
+  tags:
+    - lighthouse
+  ansible.builtin.yum:
+    name:
+      - nginx
+      - unzip
     state: present
 
-- name: Create LightHouse directory
+- name: Create LightHouse install directory
+  become: true
   tags:
     - lighthouse
-  become: true
   ansible.builtin.file:
-    path: /usr/share/nginx/html/lighthouse
+    path: "{{ lighthouse_install_dir }}"
     state: directory
-    mode: '0755'
+    mode: "0755"
+
+- name: Create temporary unpack directory
+  become: true
+  tags:
+    - lighthouse
+  ansible.builtin.file:
+    path: "{{ lighthouse_unpack_dir }}"
+    state: directory
+    mode: "0755"
 
 - name: Download LightHouse archive
+  become: true
   tags:
     - lighthouse
-  become: true
   ansible.builtin.get_url:
-    url: https://github.com/VKCOM/lighthouse/archive/refs/heads/master.zip
-    dest: /tmp/lighthouse.zip
-    mode: '0644'
+    url: "{{ lighthouse_archive_url }}"
+    dest: "{{ lighthouse_archive_path }}"
+    mode: "0644"
 
-- name: Install unzip
+- name: Unpack LightHouse archive
+  become: true
   tags:
     - lighthouse
-  become: true
-  ansible.builtin.yum:
-    name: unzip
-    state: present
-
-- name: Unpack LightHouse
-  tags:
-    - lighthouse
-  become: true
   ansible.builtin.unarchive:
-    src: /tmp/lighthouse.zip
-    dest: /tmp/
+    src: "{{ lighthouse_archive_path }}"
+    dest: "{{ lighthouse_unpack_dir }}"
     remote_src: true
+    extra_opts:
+      - -o
 
-- name: Copy LightHouse static files
+- name: Find unpacked LightHouse directory
+  become: true
   tags:
     - lighthouse
+  ansible.builtin.find:
+    paths: "{{ lighthouse_unpack_dir }}"
+    file_type: directory
+    recurse: false
+  register: lighthouse_found_dirs
+
+- name: Deploy LightHouse static files
   become: true
+  tags:
+    - lighthouse
   ansible.builtin.copy:
-    src: /tmp/lighthouse-master/
-    dest: /usr/share/nginx/html/lighthouse/
+    src: "{{ (lighthouse_found_dirs.files | map(attribute='path') | list | first) }}/"
+    dest: "{{ lighthouse_install_dir }}/"
     remote_src: true
     mode: preserve
 
-- name: Configure Nginx for LightHouse
+- name: Configure NGINX for LightHouse
+  become: true
   tags:
     - lighthouse
-  become: true
   ansible.builtin.template:
     src: lighthouse.conf.j2
-    dest: /etc/nginx/conf.d/lighthouse.conf
-    mode: '0644'
+    dest: "{{ lighthouse_nginx_conf_path }}"
+    mode: "0644"
   notify: Restart nginx
 
-- name: Start and enable nginx
+- name: Enable and start nginx
+  become: true
   tags:
     - lighthouse
-  become: true
   ansible.builtin.service:
     name: nginx
     state: started
     enabled: true
-

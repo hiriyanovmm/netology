@@ -1,2 +1,11 @@
 ---
-# defaults file for lighthouse
+lighthouse_nginx_repo_name: nginx-stable
+lighthouse_nginx_repo_description: nginx stable repo
+lighthouse_nginx_repo_baseurl: "https://nginx.org/packages/centos/$releasever/$basearch/"
+lighthouse_nginx_repo_gpgkey: https://nginx.org/keys/nginx_signing.key
+
+lighthouse_install_dir: /usr/share/nginx/html/lighthouse
+lighthouse_archive_url: https://github.com/VKCOM/lighthouse/archive/refs/heads/master.zip
+lighthouse_archive_path: /tmp/lighthouse.zip
+lighthouse_unpack_dir: /tmp/lighthouse-src
+lighthouse_nginx_conf_path: /etc/nginx/conf.d/lighthouse.conf

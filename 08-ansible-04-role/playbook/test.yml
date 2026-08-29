@@ -1,4 +1,4 @@
 ---
-- hosts: vector
+- hosts: lighthouse
   roles:
-    - vector-role
+    - lighthouse

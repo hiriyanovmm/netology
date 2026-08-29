@@ -4,17 +4,17 @@ all:
     clickhouse:
       hosts:
         08-ansible-clickhouse:
-          ansible_host: 84.201.151.93
+          ansible_host: 158.160.204.134
 
     vector:
       hosts:
         08-ansible-vector:
-          ansible_host: 158.160.189.212
+          ansible_host: 81.26.185.1
 
     lighthouse:
       hosts:
         08-ansible-lighthouse:
-          ansible_host: 158.160.183.124
+          ansible_host: 158.160.146.245
 
   vars:
     ansible_user: adm_hiryanov
