@@ -1,38 +1,89 @@
-Role Name
-=========
+# vector-role
 
-A brief description of the role goes here.
+Ansible role for installing and configuring [Vector](https://vector.dev/) on EL-based systems.
 
-Requirements
-------------
+## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+- Ansible 2.12 or newer
+- EL 8/EL 9 compatible host
+- Internet access to add the Vector repository and install the package
 
-Role Variables
---------------
+## Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Variables used by the role:
 
-Dependencies
-------------
+| Variable | Default value | Description |
+|---|---|---|
+| `vector_config_dir` | `/etc/vector` | Directory where Vector configuration is stored. |
+| `vector_config_path` | `/etc/vector/vector.yaml` | Path to the main Vector configuration file. |
+| `vector_source_log_path` | `/var/log/messages` | Source log file that Vector reads in the test configuration. |
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+## What the role does
 
-Example Playbook
-----------------
+The role performs the following actions:
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+- adds the official Vector repository;
+- refreshes package cache;
+- installs the `vector` package;
+- creates the Vector configuration directory;
+- deploys the configuration file from template;
+- validates the configuration before applying it;
+- starts and enables the Vector service.
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+## Templates
 
-License
--------
+This role uses the following template:
 
-BSD
+- `templates/vector.yaml.j2` — Vector configuration in YAML format.
 
-Author Information
-------------------
+The default test configuration:
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+- reads logs from `{{ vector_source_log_path }}`;
+- sends output to the `console` sink in JSON format.
+
+## Dependencies
+
+This role has no external role dependencies.
+
+## Example Playbook
+
+```yaml
+- hosts: vector
+  roles:
+    - role: vector-role
+```
+
+Example with custom variables:
+
+```yaml
+- hosts: vector
+  roles:
+    - role: vector-role
+      vars:
+        vector_source_log_path: /var/log/messages
+        vector_config_path: /etc/vector/vector.yaml
+```
+
+## Tags
+
+Available tag:
+
+- `vector`
+
+## Validation
+
+The role validates the configuration with:
+
+```bash
+/usr/bin/vector validate --config-yaml <config_file>
+```
+
+This helps prevent deployment of an invalid configuration.
+
+## License
+
+MIT
+
+## Author Information
+
+Maksim Hiriyanov
