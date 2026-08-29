@@ -12,10 +12,9 @@ galaxy_info:
         - 9
 
   galaxy_tags:
-    - monitoring
-    - logging
-    - nginx
-    - vector
     - lighthouse
+    - nginx
+    - web
+    - static-site
 
 dependencies: []
