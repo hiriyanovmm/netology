@@ -3,6 +3,8 @@
   become: true
   tags:
     - vector
+    - vector:repository
+    - vector:install
   ansible.builtin.shell: |
     bash -c "$(curl -L https://setup.vector.dev)"
   args:
@@ -11,7 +13,9 @@
 - name: Refresh package cache
   become: true
   tags:
-    - lighthouse
+    - vector
+    - vector:repository
+    - vector:install
   ansible.builtin.yum:
     update_cache: true
 
@@ -19,6 +23,8 @@
   become: true
   tags:
     - vector
+    - vector:package
+    - vector:install
   ansible.builtin.yum:
     name: vector
     state: present
@@ -27,6 +33,8 @@
   become: true
   tags:
     - vector
+    - vector:directories
+    - vector:install
   ansible.builtin.file:
     path: "{{ vector_config_dir }}"
     state: directory
@@ -36,6 +44,8 @@
   become: true
   tags:
     - vector
+    - vector:config
+    - vector:deploy
   ansible.builtin.template:
     src: vector.yaml.j2
     dest: "{{ vector_config_path }}"
@@ -49,6 +59,8 @@
   become: true
   tags:
     - vector
+    - vector:service
+    - vector:install
   ansible.builtin.service:
     name: vector
     state: started

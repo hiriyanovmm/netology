@@ -3,6 +3,8 @@
   become: true
   tags:
     - lighthouse
+    - lighthouse:repository
+    - lighthouse:install
   ansible.builtin.yum_repository:
     name: "{{ lighthouse_nginx_repo_name }}"
     description: "{{ lighthouse_nginx_repo_description }}"
@@ -16,6 +18,8 @@
   become: true
   tags:
     - lighthouse
+    - lighthouse:repository
+    - lighthouse:install
   ansible.builtin.yum:
     update_cache: true
 
@@ -23,6 +27,8 @@
   become: true
   tags:
     - lighthouse
+    - lighthouse:packages
+    - lighthouse:install
   ansible.builtin.yum:
     name:
       - nginx
@@ -33,6 +39,8 @@
   become: true
   tags:
     - lighthouse
+    - lighthouse:directories
+    - lighthouse:install
   ansible.builtin.file:
     path: "{{ lighthouse_install_dir }}"
     state: directory
@@ -42,6 +50,8 @@
   become: true
   tags:
     - lighthouse
+    - lighthouse:directories
+    - lighthouse:install
   ansible.builtin.file:
     path: "{{ lighthouse_unpack_dir }}"
     state: directory
@@ -51,6 +61,8 @@
   become: true
   tags:
     - lighthouse
+    - lighthouse:download
+    - lighthouse:install
   ansible.builtin.get_url:
     url: "{{ lighthouse_archive_url }}"
     dest: "{{ lighthouse_archive_path }}"
@@ -60,6 +72,8 @@
   become: true
   tags:
     - lighthouse
+    - lighthouse:deploy
+    - lighthouse:install
   ansible.builtin.unarchive:
     src: "{{ lighthouse_archive_path }}"
     dest: "{{ lighthouse_unpack_dir }}"
@@ -71,6 +85,8 @@
   become: true
   tags:
     - lighthouse
+    - lighthouse:deploy
+    - lighthouse:install
   ansible.builtin.find:
     paths: "{{ lighthouse_unpack_dir }}"
     file_type: directory
@@ -81,6 +97,8 @@
   become: true
   tags:
     - lighthouse
+    - lighthouse:deploy
+    - lighthouse:install
   ansible.builtin.copy:
     src: "{{ (lighthouse_found_dirs.files | map(attribute='path') | list | first) }}/"
     dest: "{{ lighthouse_install_dir }}/"
@@ -91,6 +109,8 @@
   become: true
   tags:
     - lighthouse
+    - lighthouse:config
+    - lighthouse:deploy
   ansible.builtin.template:
     src: lighthouse.conf.j2
     dest: "{{ lighthouse_nginx_conf_path }}"
@@ -101,6 +121,8 @@
   become: true
   tags:
     - lighthouse
+    - lighthouse:service
+    - lighthouse:install
   ansible.builtin.service:
     name: nginx
     state: started
