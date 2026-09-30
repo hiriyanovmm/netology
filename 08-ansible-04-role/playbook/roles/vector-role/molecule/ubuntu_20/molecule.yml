@@ -42,7 +42,7 @@ ansible:
     verify: verify.yml
 
 scenario:
-  name: default
+  name: ubuntu_20
   test_sequence:
     - dependency
     - cleanup
