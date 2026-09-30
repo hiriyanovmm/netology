@@ -1,0 +1,94 @@
+---
+- name: Verify Vector role
+  hosts: molecule
+  gather_facts: false
+
+  vars:
+    vector_verify_config_path: /etc/vector/vector.yaml
+
+  tasks:
+    - name: Check Vector binary
+      ansible.builtin.stat:
+        path: /usr/bin/vector
+      register: vector_binary
+
+    - name: Assert Vector binary exists and is executable
+      ansible.builtin.assert:
+        that:
+          - vector_binary.stat.exists
+          - vector_binary.stat.isreg
+          - vector_binary.stat.executable
+        fail_msg: "Vector binary /usr/bin/vector is absent or not executable"
+
+    - name: Check Vector configuration
+      ansible.builtin.stat:
+        path: "{{ vector_verify_config_path }}"
+      register: vector_config
+
+    - name: Assert Vector configuration exists
+      ansible.builtin.assert:
+        that:
+          - vector_config.stat.exists
+          - vector_config.stat.isreg
+          - vector_config.stat.size > 0
+        fail_msg: "Vector configuration is absent or empty"
+
+    - name: Validate Vector configuration
+      ansible.builtin.command:
+        argv:
+          - /usr/bin/vector
+          - validate
+          - --config-yaml
+          - "{{ vector_verify_config_path }}"
+      register: vector_validation
+      changed_when: false
+      failed_when: false
+
+    - name: Assert Vector configuration is valid
+      ansible.builtin.assert:
+        that:
+          - vector_validation.rc == 0
+        fail_msg: >-
+          Vector configuration validation failed:
+          {{ vector_validation.stdout | default('') }}
+          {{ vector_validation.stderr | default('') }}
+
+    # - name: Check that Vector service is active
+    #   ansible.builtin.command:
+    #     argv:
+    #       - systemctl
+    #       - is-active
+    #       - vector.service
+    #   register: vector_active
+    #   changed_when: false
+    #   failed_when: false
+
+    # - name: Assert Vector service is active
+    #   ansible.builtin.assert:
+    #     that:
+    #       - vector_active.rc == 0
+    #       - vector_active.stdout | trim == 'active'
+    #     fail_msg: >-
+    #       vector.service is not active.
+    #       stdout={{ vector_active.stdout | default('') }}
+    #       stderr={{ vector_active.stderr | default('') }}
+
+    - name: Check that Vector service is enabled
+      ansible.builtin.command:
+        argv:
+          - systemctl
+          - is-enabled
+          - vector.service
+      register: vector_enabled
+      changed_when: false
+      failed_when: false
+
+    - name: Assert Vector service is enabled
+      ansible.builtin.assert:
+        that:
+          - vector_enabled.rc == 0
+          - vector_enabled.stdout | trim == 'enabled'
+        fail_msg: >-
+          vector.service is not enabled.
+          stdout={{ vector_enabled.stdout | default('') }}
+          stderr={{ vector_enabled.stderr | default('') }}

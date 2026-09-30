@@ -1,0 +1,25 @@
+---
+- name: Create test container
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Start Oracle Linux container
+      community.docker.docker_container:
+        name: molecule_oraclelinux_8_vector_role
+        image: oraclelinux:8
+        state: started
+        command: sleep infinity
+        detach: true
+      register: server
+
+    - name: Install Python in test container
+      community.docker.docker_container_exec:
+        container: molecule_oraclelinux_8_vector_role
+        user: root
+        argv:
+          - /bin/sh
+          - -c
+          - dnf install -y python3
+      when: server is changed

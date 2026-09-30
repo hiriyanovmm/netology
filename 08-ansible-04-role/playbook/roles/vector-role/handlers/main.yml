@@ -11,4 +11,5 @@
     state: restarted
   tags:
     - vector
+  when: vector_manage_service | bool
 

@@ -1,0 +1,27 @@
+---
+- name: Create test container
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Start container
+      community.docker.docker_container:
+        name: molecule_vector_role
+        image: ubuntu:20.04
+        state: started
+        command: sleep infinity
+        detach: true
+      register: server
+
+    - name: Install Python in test container
+      community.docker.docker_container_exec:
+        container: molecule_vector_role
+        user: root
+        argv:
+          - /bin/sh
+          - -c
+          - >-
+            apt-get update &&
+            DEBIAN_FRONTEND=noninteractive apt-get install -y python3
+      when: server is changed

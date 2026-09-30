@@ -1,34 +1,78 @@
 ---
+- name: Install APT repository prerequisites
+  become: true
+  ansible.builtin.apt:
+    name:
+      - curl
+      - ca-certificates
+    state: present
+    update_cache: true
+  when: ansible_os_family == 'Debian'
+  tags:
+    - vector
+    - vector:repository
+    - vector:install
+
+- name: Install RPM repository prerequisites
+  become: true
+  ansible.builtin.package:
+    name:
+      - curl
+      - ca-certificates
+    state: present
+  when: ansible_os_family == 'RedHat'
+  tags:
+    - vector
+    - vector:repository
+    - vector:install
+
+- name: Check installed packages
+  ansible.builtin.package_facts:
+    manager: auto
+  tags:
+    - vector
+    - vector:repository
+    - vector:install
+
 - name: Add Vector repository
   become: true
-  tags:
-    - vector
-    - vector:repository
-    - vector:install
   ansible.builtin.shell: |
-    bash -c "$(curl -L https://setup.vector.dev)"
+    set -o pipefail
+    curl -fsSL https://setup.vector.dev | bash
   args:
-    creates: /etc/yum.repos.d/vector.repo
-
-- name: Refresh package cache
-  become: true
+    executable: /bin/bash
+  when:
+    - ansible_os_family in ['Debian', 'RedHat']
+    - "'vector' not in ansible_facts.packages"
   tags:
     - vector
     - vector:repository
     - vector:install
-  ansible.builtin.yum:
-    update_cache: true
 
-- name: Install Vector package
+- name: Install Vector package on Debian and Ubuntu
   become: true
+  ansible.builtin.apt:
+    name: vector
+    state: present
+    update_cache: true
+  when: ansible_os_family == 'Debian'
   tags:
     - vector
     - vector:package
     - vector:install
+
+- name: Install Vector package on RPM systems
+  become: true
   ansible.builtin.yum:
     name: vector
     state: present
-
+    update_cache: true
+  when: ansible_os_family == 'RedHat'
+  tags:
+    - vector
+    - vector:package
+    - vector:install
+    
 - name: Create Vector config directory
   become: true
   tags:
@@ -65,3 +109,4 @@
     name: vector
     state: started
     enabled: true
+  when: vector_manage_service | bool

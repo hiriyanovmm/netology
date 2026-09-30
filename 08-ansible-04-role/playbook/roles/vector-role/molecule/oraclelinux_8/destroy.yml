@@ -1,0 +1,11 @@
+---
+- name: Destroy test container
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Remove container
+      community.docker.docker_container:
+        name: molecule_oraclelinux_8_vector_role
+        state: absent
