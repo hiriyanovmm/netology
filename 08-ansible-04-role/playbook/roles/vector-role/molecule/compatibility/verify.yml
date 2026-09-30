@@ -1,0 +1,16 @@
+---
+- name: Verify Vector installation
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Check Vector version
+      ansible.builtin.command: /usr/bin/vector --version
+      register: vector_version
+      changed_when: false
+
+    - name: Assert Vector binary works
+      ansible.builtin.assert:
+        that:
+          - vector_version.rc == 0
+          - "'vector' in vector_version.stdout | lower"

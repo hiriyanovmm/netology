@@ -1,0 +1,14 @@
+---
+- name: Test Vector role
+  hosts: all
+  gather_facts: true
+
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    ansible_become: false
+    vector_manage_service: false
+
+  tasks:
+    - name: Apply Vector role
+      ansible.builtin.include_role:
+        name: adm_hiryanov.vector_role
