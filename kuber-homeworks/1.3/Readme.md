@@ -1,6 +1,7 @@
 ### Задание 1.
 
 Продемонстрировать количество подов до и после масштабирования.
+
 kubectl get pods -l app=nginx-multitool -o wide
 NAME                               READY   STATUS    RESTARTS   AGE   IP               NODE     NOMINATED NODE   READINESS GATES
 nginx-multitool-74c8fddf54-fqsjm   2/2     Running   0          37s   10.233.103.154   k8s-w1   <none>           <none>
@@ -16,6 +17,7 @@ NAME                  TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          
 nginx-multitool-svc   ClusterIP   10.233.29.22   <none>        80/TCP,8080/TCP   10s
 
 Создать отдельный Pod с приложением multitool и убедиться с помощью curl, что из пода есть доступ до приложений из п.1.
+
 kubectl exec -it multitool-client -- curl -s http://nginx-multitool-svc:80
 <!DOCTYPE html>
 <html>
