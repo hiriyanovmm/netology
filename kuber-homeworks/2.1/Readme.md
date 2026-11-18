@@ -99,7 +99,7 @@ Events:
 ```
 
 ``` bash
-kubectl exec -it $POD -c multitool -- tail -f /data/shared-file.txt
+kubectl exec -it data-exchange-c978d86f6-mctrx -c multitool -- tail -f /data/shared-file.txt
 ```
 ``` text
 Mon Nov 16 19:00:20 UTC 2026 — сообщение от busybox
