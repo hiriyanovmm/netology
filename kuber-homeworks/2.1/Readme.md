@@ -1,4 +1,13 @@
 ### Задание 1. Volume: обмен данными между контейнерами в поде
+#### Создать Deployment приложения, состоящего из контейнеров busybox и multitool
+``` bash
+kubectl apply -f containers-data-exchange.yaml
+```
+``` text
+deployment.apps/data-exchange created
+```
+
+#### Настроить busybox на запись данных каждые 5 секунд в некий файл в общей директории
 ``` bash
 kubectl describe pods data-exchangege
 ```
@@ -136,18 +145,7 @@ Wed Nov 18 15:33:42 UTC 2026 — сообщение от busybox в PV
 ```
 
 #### Удалить Deployment и PVC. Продемонстрировать, что после этого произошло с PV. Пояснить, почему. (Используйте команду kubectl describe pv).
-```bash
-kubectl exec -it data-exchange-pvc-74c6dc95dd-ch5mh -c multitool -- tail -f /data/pv-file.txt
-```
-``` text
-Wed Nov 18 15:33:12 UTC 2026 — сообщение от busybox в PV
-Wed Nov 18 15:33:17 UTC 2026 — сообщение от busybox в PV
-Wed Nov 18 15:33:22 UTC 2026 — сообщение от busybox в PV
-Wed Nov 18 15:33:27 UTC 2026 — сообщение от busybox в PV
-Wed Nov 18 15:33:32 UTC 2026 — сообщение от busybox в PV
-Wed Nov 18 15:33:37 UTC 2026 — сообщение от busybox в PV
-Wed Nov 18 15:33:42 UTC 2026 — сообщение от busybox в PV
-```
+
 ``` bash
 kubectl describe pv local-data-pv
 ```
@@ -185,4 +183,44 @@ Wed Nov 18 15:33:47 UTC 2026 — сообщение от busybox в PV
 
 ### Задание 3. StorageClass
 
+#### Создать SC и PVC для подключения папки на локальной ноде, которая будет использована в поде
+``` bash
+kubectl apply -f sc.yaml
+```
+``` text
+storageclass.storage.k8s.io/local-storage created
+persistentvolume/local-storage-pv created
+persistentvolumeclaim/local-storage-pvc created
+deployment.apps/data-exchange-sc created
+```
+``` bash
+kubectl get storageclass
+```
+``` text
+NAME            PROVISIONER                    RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+local-storage   kubernetes.io/no-provisioner   Delete          WaitForFirstConsumer   false                  25s
 
+``` bash
+kubectl get pv,pvc
+```
+``` text
+NAME                                CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS     CLAIM                       STORAGECLASS    VOLUMEATTRIBUTESCLASS   REASON   AGE
+persistentvolume/local-data-pv      1Gi        RWO            Retain           Released   default/local-data-pvc                      <unset>                          22m
+persistentvolume/local-storage-pv   1Gi        RWO            Retain           Bound      default/local-storage-pvc   local-storage   <unset>                          32s
+
+NAME                                      STATUS   VOLUME             CAPACITY   ACCESS MODES   STORAGECLASS    VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/local-storage-pvc   Bound    local-storage-pv   1Gi        RWO            local-storage   <unset>                 32s
+```
+
+#### Продемонстрировать, что контейнер multitool может читать данные из файла в смонтированной директории, в который busybox записывает данные каждые 5 секунд
+``` bash
+kubectl exec -it data-exchange-sc-66798cd5d6-f6t6g -c multitool -- tail -f /data/sc-file.txt
+```
+``` text
+Wed Nov 18 15:56:22 UTC 2026 — сообщение от busybox в StorageClass PV
+Wed Nov 18 15:56:27 UTC 2026 — сообщение от busybox в StorageClass PV
+Wed Nov 18 15:56:32 UTC 2026 — сообщение от busybox в StorageClass PV
+Wed Nov 18 15:56:37 UTC 2026 — сообщение от busybox в StorageClass PV
+Wed Nov 18 15:56:42 UTC 2026 — сообщение от busybox в StorageClass PV
+Wed Nov 18 15:56:47 UTC 2026 — сообщение от busybox в StorageClass PV
+```
