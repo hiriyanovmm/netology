@@ -111,6 +111,78 @@ Mon Nov 16 19:00:40 UTC 2026 — сообщение от busybox
 
 ### Задание 2. PV, PVC
 
+#### Создать PV и PVC для подключения папки на локальной ноде, которая будет использована в поде
+``` bash
+kubectl apply -f pv-pvc.yaml
+```
+``` text
+persistentvolume/local-data-pv created
+persistentvolumeclaim/local-data-pvc created
+deployment.apps/data-exchange-pvc created
+```
 
+#### Продемонстрировать, что контейнер multitool может читать данные из файла в смонтированной директории, в который busybox записывает данные каждые 5 секунд
+``` bash
+kubectl exec -it data-exchange-pvc-74c6dc95dd-ch5mh -c multitool -- tail -f /data/pv-file.txt
+```
+``` text
+Wed Nov 18 15:33:12 UTC 2026 — сообщение от busybox в PV
+Wed Nov 18 15:33:17 UTC 2026 — сообщение от busybox в PV
+Wed Nov 18 15:33:22 UTC 2026 — сообщение от busybox в PV
+Wed Nov 18 15:33:27 UTC 2026 — сообщение от busybox в PV
+Wed Nov 18 15:33:32 UTC 2026 — сообщение от busybox в PV
+Wed Nov 18 15:33:37 UTC 2026 — сообщение от busybox в PV
+Wed Nov 18 15:33:42 UTC 2026 — сообщение от busybox в PV
+```
+
+#### Удалить Deployment и PVC. Продемонстрировать, что после этого произошло с PV. Пояснить, почему. (Используйте команду kubectl describe pv).
+```bash
+kubectl exec -it data-exchange-pvc-74c6dc95dd-ch5mh -c multitool -- tail -f /data/pv-file.txt
+```
+``` text
+Wed Nov 18 15:33:12 UTC 2026 — сообщение от busybox в PV
+Wed Nov 18 15:33:17 UTC 2026 — сообщение от busybox в PV
+Wed Nov 18 15:33:22 UTC 2026 — сообщение от busybox в PV
+Wed Nov 18 15:33:27 UTC 2026 — сообщение от busybox в PV
+Wed Nov 18 15:33:32 UTC 2026 — сообщение от busybox в PV
+Wed Nov 18 15:33:37 UTC 2026 — сообщение от busybox в PV
+Wed Nov 18 15:33:42 UTC 2026 — сообщение от busybox в PV
+```
+``` bash
+kubectl describe pv local-data-pv
+```
+``` text
+Name:            local-data-pv
+Labels:          <none>
+Annotations:     pv.kubernetes.io/bound-by-controller: yes
+Finalizers:      [kubernetes.io/pv-protection]
+StorageClass:    
+Status:          Released
+Claim:           default/local-data-pvc
+Reclaim Policy:  Retain
+Access Modes:    RWO
+VolumeMode:      Filesystem
+Capacity:        1Gi
+Node Affinity:   <none>
+```
+В describe pv PV перейдёт из Bound в Released. Это происходит потому, что persistentVolumeReclaimPolicy: Retain: Kubernetes сохраняет PV и его данные, но не удаляет их автоматически.
+
+#### Продемонстрировать, что файл сохранился на локальном диске ноды. Удалить PV. Продемонстрировать, что произошло с файлом после удаления PV. Пояснить, почему.
+``` bash
+root@k8s-w1:~# cat /opt/k8s-data/pv-file.txt
+```
+``` text
+Wed Nov 18 15:33:12 UTC 2026 — сообщение от busybox в PV
+Wed Nov 18 15:33:17 UTC 2026 — сообщение от busybox в PV
+Wed Nov 18 15:33:22 UTC 2026 — сообщение от busybox в PV
+Wed Nov 18 15:33:27 UTC 2026 — сообщение от busybox в PV
+Wed Nov 18 15:33:32 UTC 2026 — сообщение от busybox в PV
+Wed Nov 18 15:33:37 UTC 2026 — сообщение от busybox в PV
+Wed Nov 18 15:33:42 UTC 2026 — сообщение от busybox в PV
+Wed Nov 18 15:33:47 UTC 2026 — сообщение от busybox в PV
+```
+Файл останется на диске ноды. Удаление объекта PersistentVolume в Kubernetes удаляет только API-объект и связь Kubernetes с хранилищем; при hostPath он не удаляет сам каталог или файлы на узле.
 
 ### Задание 3. StorageClass
+
+
