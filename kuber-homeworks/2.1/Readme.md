@@ -108,3 +108,9 @@ Mon Nov 16 19:00:30 UTC 2026 — сообщение от busybox
 Mon Nov 16 19:00:35 UTC 2026 — сообщение от busybox
 Mon Nov 16 19:00:40 UTC 2026 — сообщение от busybox
 ```
+
+### Задание 2. PV, PVC
+
+
+
+### Задание 3. StorageClass
