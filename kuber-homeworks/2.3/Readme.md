@@ -14,11 +14,6 @@
 
 ### Задание 3: Настройка RBAC
 
-Что сдать на проверку
-Манифесты:
-role-pod-reader.yaml
-rolebinding-developer.yaml
-
 #### Команды генерации сертификатов
 ``` bash
 openssl genrsa -out developer.key 2048
