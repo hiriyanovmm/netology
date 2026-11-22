@@ -1,32 +1,13 @@
 ### Задание 1: Работа с ConfigMaps
 
-#### Создать Deployment с двумя контейнерами
+#### Скриншот вывода curl или браузера
 
-#### Подключить веб-страницу через ConfigMap
+<img width="610" height="429" alt="image" src="https://github.com/user-attachments/assets/0043e8c7-87d0-4357-a6a1-6a18e1e55839" />
 
-####Проверить доступность
-
-Что сдать на проверку
-Манифесты:
-deployment.yaml
-configmap-web.yaml
-Скриншот вывода curl или браузера
 
 ### Задание 2: Настройка HTTPS с Secrets
 
-#### Сгенерировать SSL-сертификат
-
-#### Создать Secret
-
-#### Настроить Ingress
-
-#### Проверить HTTPS-доступ
-
-Что сдать на проверку
-Манифесты:
-secret-tls.yaml
-ingress-tls.yaml
-Скриншот вывода curl -k
+#### Скриншот вывода curl -k
 
 ### Задание 3: Настройка RBAC
 
