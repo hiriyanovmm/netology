@@ -9,6 +9,9 @@
 
 #### Скриншот вывода curl -k
 
+<img width="621" height="446" alt="image" src="https://github.com/user-attachments/assets/333c9b96-4683-4a92-a1fd-e1551353f3f6" />
+
+
 ### Задание 3: Настройка RBAC
 
 #### Создать SSL-сертификат для пользователя
