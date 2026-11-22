@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+  namespace: lab-2-3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-app
+  template:
+    metadata:
+      labels:
+        app: web-app
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - name: http
+              containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          volumeMounts:
+            - name: web-content
+              mountPath: /usr/share/nginx/html
+              readOnly: true
+        - name: multitool
+          image: wbitt/network-multitool:alpine-extra
+          env:
+            - name: HTTP_PORT
+              value: "1180"
+            - name: HTTPS_PORT
+              value: "11443"
+      volumes:
+        - name: web-content
+          configMap:
+            name: web-content
+            items:
+              - key: index.html
+                path: index.html
