@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Release.Name }}-db
+type: Opaque
+stringData:
+  POSTGRES_USER: {{ .Values.db.user | quote }}
+  POSTGRES_PASSWORD: {{ .Values.db.password | quote }}
+  POSTGRES_DB: {{ .Values.db.name | quote }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-db
+spec:
+  clusterIP: None
+  selector:
+    app: {{ .Release.Name }}-db
+  ports:
+    - port: {{ .Values.db.port }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-db
+spec:
+  serviceName: {{ .Release.Name }}-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-db
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-db
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: db
+          image: "{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}"
+          imagePullPolicy: {{ .Values.db.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ .Release.Name }}-db
+          env:
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          ports:
+            - containerPort: {{ .Values.db.port }}
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+      {{- if not .Values.db.persistence.enabled }}
+      volumes:
+        - name: data
+          emptyDir: {}
+      {{- end }}
+  {{- if .Values.db.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: {{ .Values.db.persistence.size }}
+  {{- end }}
