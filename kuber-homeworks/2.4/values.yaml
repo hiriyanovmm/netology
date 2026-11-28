@@ -1,0 +1,28 @@
+frontend:
+  replicaCount: 1
+  image:
+    repository: nginx
+    tag: "1.25"
+    pullPolicy: IfNotPresent
+  port: 80
+
+backend:
+  replicaCount: 1
+  image:
+    repository: praqma/network-multitool
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  port: 8080
+
+db:
+  image:
+    repository: postgres
+    tag: "15"
+    pullPolicy: IfNotPresent
+  port: 5432
+  user: app
+  password: changeme
+  name: appdb
+  persistence:
+    enabled: false
+    size: 1Gi
